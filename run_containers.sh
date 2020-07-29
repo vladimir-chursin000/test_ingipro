@@ -1,0 +1,1 @@
+docker-compose -f test_ingipro.yml up -d --build

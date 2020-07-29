@@ -1,0 +1,40 @@
+version: '3'
+services:
+  nginx0:
+    build: ./nginx0_files
+    container_name: nginx0
+    ports:
+      - 8888:80
+    volumes:
+      - ./nginx0_log:/var/log/nginx
+    restart: always
+    networks:
+      int_net:
+        ipv4_address: 172.20.100.10
+      default:
+        ipv4_address: 172.20.0.2
+
+  php_fpm0:
+    build: ./php_fpm0_files
+    container_name: php_fpm0
+    restart: always
+    networks:
+      int_net:
+        ipv4_address: 172.20.100.20
+      default:
+        ipv4_address: 172.20.0.3
+
+networks:
+  int_net:
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.100.0/24
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24
